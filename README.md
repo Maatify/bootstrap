@@ -19,6 +19,8 @@
 **Author:** [Mohamed Abdulalim (megyptm)](mailto:mohamed@maatify.dev)  
 **© 2025 Maatify.dev**
 
+> 🔗 [بالعربي](./README-AR.md)
+
 ---
 
 ## 🧭 Overview
