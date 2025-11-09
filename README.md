@@ -21,7 +21,7 @@
 **Author:** [Mohamed Abdulalim (megyptm)](mailto:mohamed@maatify.dev)  
 **© 2025 Maatify.dev**
 
-> 🔗 [بالعربي](./README-AR.md)
+> 🔗 [بالعربي 🇸🇦 ](./README-AR.md)
 
 ---
 
@@ -58,6 +58,56 @@ This library relies on:
 
 > `maatify/bootstrap` builds upon these open-source libraries to provide a unified and secure initialization layer
 > across the entire Maatify ecosystem.
+
+---
+
+### 🧩 Internal Dependency Hierarchy
+
+`maatify/bootstrap` follows a **hierarchical dependency chain** within the Maatify ecosystem, ensuring that all foundational layers are automatically included — without redundancy or version conflicts.
+
+| Layer | Library                     | Purpose                                                                            | Auto-Loaded                     |
+|-------|-----------------------------|------------------------------------------------------------------------------------|---------------------------------|
+| 🧱 1  | **maatify/psr-logger**      | Provides PSR-3 compliant logging for consistent system-wide logging.               | ✅ Included                      |
+| 🧩 2  | **maatify/common**          | Core utilities and helpers (paths, environment helpers, string sanitization, etc.) | ✅ Included through `psr-logger` |
+| ⚙️ 3  | **maatify/bootstrap**       | Initializes and validates environment setup and runtime behavior.                  | —                               |
+| 🧠 4  | **Other Maatify Libraries** | e.g. `maatify/rate-limiter`, `maatify/redis-cache`, `maatify/security-guard`       | Depend only on `bootstrap`      |
+
+> 🧩 **Note:**
+> Installing `maatify/bootstrap` **automatically includes**
+> both `maatify/common` and `maatify/psr-logger`.
+> You do **not** need to manually require them — they are resolved internally via Composer dependencies.
+
+---
+
+#### 📦 Dependency Chain Diagram
+
+```mermaid
+graph TD
+    A[maatify/psr-logger] --> B[maatify/common]
+    B --> C[maatify/bootstrap]
+    C --> D[Other Maatify Libraries<br>(rate-limiter, redis-cache, security-guard...)]
+```
+
+> This diagram shows how each Maatify package inherits initialization and logging automatically
+> through the unified bootstrap layer — ensuring consistent configuration and predictable startup behavior.
+
+---
+
+### 🧩 Version Compatibility Matrix
+
+| Library                  |  PHP 8.2   | PHP 8.3 | PHP 8.4 | CI Support |
+|--------------------------|:----------:|:-------:|:-------:|:----------:|
+| **maatify/psr-logger**   | ⚠️ Partial | ✅ Full  | ✅ Full  |     ✅      |
+| **maatify/common**       | ⚠️ Partial | ✅ Full  | ✅ Full  |     ✅      |
+| **maatify/bootstrap**    | ⚠️ Partial | ✅ Full  | ✅ Full  |     ✅      |
+| **maatify/rate-limiter** |     ❌      | ✅ Full  | ✅ Full  |     ✅      |
+| **maatify/redis-cache**  |     ❌      | ✅ Full  | ✅ Full  |     ✅      |
+
+> ⚙️ **Notes:**
+>
+> * Official testing and CI pipelines target **PHP 8.3** and **8.4**.
+> * Backward compatibility with PHP 8.2 is limited and not guaranteed.
+> * All Maatify core packages maintain synchronized versioning and consistent dependency alignment.
 
 ---
 
