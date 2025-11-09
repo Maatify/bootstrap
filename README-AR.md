@@ -4,12 +4,13 @@
 
 # ⚙️ Maatify Bootstrap
 
-[![Packagist Version](https://img.shields.io/packagist/v/maatify/bootstrap.svg?label=Version&color=4C1)](https://packagist.org/packages/maatify/bootstrap)
-[![PHP Version Support](https://img.shields.io/packagist/php-v/maatify/bootstrap.svg?label=PHP)](https://packagist.org/packages/maatify/bootstrap)
-[![Build Status](https://github.com/Maatify/bootstrap/actions/workflows/tests.yml/badge.svg)](https://github.com/Maatify/bootstrap/actions/workflows/tests.yml)
-[![Monthly Downloads](https://img.shields.io/packagist/dm/maatify/bootstrap.svg?label=Downloads)](https://packagist.org/packages/maatify/bootstrap)
-[![License](https://img.shields.io/github/license/Maatify/bootstrap.svg?label=License)](LICENSE)
-[![Stars](https://img.shields.io/packagist/stars/maatify/bootstrap)](https://github.com/maatify/bootstrap/stargazers)
+[![Version](https://img.shields.io/packagist/v/maatify/bootstrap?label=Version&color=4C1)](https://packagist.org/packages/maatify/bootstrap)
+[![PHP](https://img.shields.io/packagist/php-v/maatify/bootstrap?label=PHP&color=777BB3)](https://packagist.org/packages/maatify/bootstrap)
+[![Build](https://github.com/Maatify/bootstrap/actions/workflows/tests.yml/badge.svg?label=Build&color=brightgreen)](https://github.com/Maatify/bootstrap/actions/workflows/tests.yml)
+[![Monthly Downloads](https://img.shields.io/packagist/dm/maatify/bootstrap?label=Monthly%20Downloads&color=00A8E8)](https://packagist.org/packages/maatify/bootstrap)
+[![Total Downloads](https://img.shields.io/packagist/dt/maatify/bootstrap?label=Total%20Downloads&color=2AA)](https://packagist.org/packages/maatify/bootstrap)
+[![Stars](https://img.shields.io/github/stars/Maatify/bootstrap?label=Stars&color=FFD43B)](https://github.com/Maatify/bootstrap/stargazers)
+[![License](https://img.shields.io/github/license/Maatify/bootstrap?label=License&color=blueviolet)](LICENSE)
 
 ---
 
