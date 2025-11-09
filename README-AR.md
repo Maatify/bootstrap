@@ -176,8 +176,8 @@ composer run-script test
 
 ## 🧱 المطوّرون وحقوق النشر
 
-**تم التطوير بواسطة:** [**Maatify.dev**](https://www.maatify.dev)
-**المسؤول:** Mohamed Abdulalim
-**المشروع:** `maatify:bootstrap`
+**تم التطوير بواسطة:** [**Maatify.dev**](https://www.maatify.dev)  
+**المسؤول:** Mohamed Abdulalim  
+**المشروع:** `maatify:bootstrap`  
 
 ---
