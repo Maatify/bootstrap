@@ -9,6 +9,7 @@
 [![Build Status](https://github.com/Maatify/bootstrap/actions/workflows/tests.yml/badge.svg)](https://github.com/Maatify/bootstrap/actions/workflows/tests.yml)
 [![Monthly Downloads](https://img.shields.io/packagist/dm/maatify/bootstrap.svg?label=Downloads)](https://packagist.org/packages/maatify/bootstrap)
 [![License](https://img.shields.io/github/license/Maatify/bootstrap.svg?label=License)](LICENSE)
+[![Stars](https://img.shields.io/packagist/stars/maatify/bootstrap)](https://github.com/maatify/bootstrap/stargazers)
 
 ---
 
