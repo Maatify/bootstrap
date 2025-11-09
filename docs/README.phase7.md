@@ -18,16 +18,16 @@ This phase delivers the final packaging, release automation, and metadata standa
 
 ## ⚙️ Implemented Tasks
 
-| Task | Description | Status |
-|------|--------------|--------|
-| Create public `README.md` | Short, badge-rich README for GitHub and Packagist | ✅ |
-| Merge `README.full.md` | Consolidated technical documentation from all phases | ✅ |
-| Add CI/CD workflow | GitHub Actions YAML for PHP 8.4 + Docker parity | ✅ |
-| Add `CHANGELOG.md` | Track version history starting from v1.0.0 | ✅ |
-| Add `composer.json` metadata | Complete with description, keywords, license, and authors | ✅ |
-| Generate GitHub Release Notes | Markdown for v1.0.0 release page | ✅ |
-| Prepare Packagist description & keywords | Optimized for discoverability | ✅ |
-| Final tag and version | Ready for `v1.0.0` stable release | 🕐 Pending push |
+| Task                                     | Description                                               | Status          |
+|------------------------------------------|-----------------------------------------------------------|-----------------|
+| Create public `README.md`                | Short, badge-rich README for GitHub and Packagist         | ✅               |
+| Merge `README.full.md`                   | Consolidated technical documentation from all phases      | ✅               |
+| Add CI/CD workflow                       | GitHub Actions YAML for PHP 8.4 + Docker parity           | ✅               |
+| Add `CHANGELOG.md`                       | Track version history starting from v1.0.0                | ✅               |
+| Add `composer.json` metadata             | Complete with description, keywords, license, and authors | ✅               |
+| Generate GitHub Release Notes            | Markdown for v1.0.0 release page                          | ✅               |
+| Prepare Packagist description & keywords | Optimized for discoverability                             | ✅               |
+| Final tag and version                    | Ready for `v1.0.0` stable release                         | 🕐 Pending push |
 
 ---
 
@@ -165,7 +165,7 @@ Expected summary:
 ## ✅ Phase 7 Output Summary
 
 | File                          | Description                               |
-| ----------------------------- | ----------------------------------------- |
+|-------------------------------|-------------------------------------------|
 | `README.md`                   | Public readme with badges and usage guide |
 | `docs/README.full.md`         | Consolidated full documentation           |
 | `CHANGELOG.md`                | Version history                           |

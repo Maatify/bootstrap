@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        php: [ "8.3", "8.4" ]
+        php: [ "8.4" ]   # ✅ Only 8.4 supported officially
 
     steps:
       - name: 🛎️ Checkout repository
@@ -26,8 +26,15 @@ jobs:
           extensions: mbstring, intl, bcmath, redis
           tools: composer:v2
 
+      - name: ♻️ Cache Composer packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
       - name: 📦 Install dependencies
-        run: composer install --no-interaction --no-progress
+        run: composer install --no-interaction --no-progress --prefer-dist
 
       - name: 🧪 Run PHPUnit tests
         env:
@@ -40,5 +47,4 @@ jobs:
           composer validate --no-check-all
 
       - name: 🐳 Docker Build Check
-        run: |
-          docker build -t maatify/bootstrap:test -f docker/Dockerfile .
+        run: docker build -t maatify/bootstrap:test -f docker/Dockerfile .
