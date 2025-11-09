@@ -2,62 +2,71 @@
 
 ---
 
-# 🧩 Maatify Bootstrap  
+# ⚙️ Maatify Bootstrap
+
+[![Packagist Version](https://img.shields.io/packagist/v/maatify/bootstrap.svg?label=Version&color=4C1)](https://packagist.org/packages/maatify/bootstrap)
+[![PHP Version Support](https://img.shields.io/packagist/php-v/maatify/bootstrap.svg?label=PHP)](https://packagist.org/packages/maatify/bootstrap)
+[![Build Status](https://github.com/Maatify/bootstrap/actions/workflows/tests.yml/badge.svg)](https://github.com/Maatify/bootstrap/actions/workflows/tests.yml)
+[![Monthly Downloads](https://img.shields.io/packagist/dm/maatify/bootstrap.svg?label=Downloads)](https://packagist.org/packages/maatify/bootstrap)
+[![License](https://img.shields.io/github/license/Maatify/bootstrap.svg?label=License)](LICENSE)
+
+---
+
 ### Unified Environment Initialization & Diagnostics Layer  
 **Project:** `maatify:bootstrap`  
-**Author:** [Mohamed Abdulalim (megyptm)](mailto:mohamed@maatify.dev)  
+**Version:** 1.0.0  
 **License:** MIT  
-**©2025 Maatify.dev**
+**Author:** [Mohamed Abdulalim (megyptm)](mailto:mohamed@maatify.dev)  
+**© 2025 Maatify.dev**
 
 ---
 
-## ⚙️ Overview
+## 🧭 Overview
 
-**Maatify Bootstrap** provides a unified, reliable foundation for all Maatify ecosystem libraries.  
-It handles environment initialization, timezone configuration, error handling, and Safe Mode logic in a single lightweight package.
+`maatify/bootstrap` is the **core foundation** for the entire Maatify ecosystem —  
+providing standardized environment initialization, diagnostics, timezone setup, and safe startup checks  
+for every Maatify PHP library and application.
 
-This ensures that all Maatify libraries — such as `maatify/common`, `maatify/psr-logger`, and `maatify/redis-cache` — start consistently and securely across development, CI, and production environments.
-
----
-
-## 🧱 Features
-
-✅ Automatic `.env` loading (with priority order)  
-✅ Safe Mode detection for production safety  
-✅ Environment integrity validation  
-✅ Timezone setup & fallback (`Africa/Cairo` default)  
-✅ CI/CD & Docker compatibility  
-✅ Fully PSR-compliant logging integration  
-✅ Comprehensive PHPUnit coverage  
+It ensures consistent, predictable, and secure runtime behavior across:
+- Local development  
+- CI/CD pipelines  
+- Staging and production environments  
 
 ---
 
-## 🧩 Environment File Priority
-
-| Priority | File           | Purpose                         |
-|----------|----------------|---------------------------------|
-| 1️⃣      | `.env.local`   | Developer-specific overrides    |
-| 2️⃣      | `.env.testing` | CI or testing configuration     |
-| 3️⃣      | `.env`         | Standard production environment |
-| 4️⃣      | `.env.example` | Safe fallback (always included) |
-
-The system automatically loads the **first available** file in that order.  
-Once one file is loaded, it stops checking the rest — avoiding accidental overrides.
-
----
-
-## 📦 Installation
+## ⚙️ Installation
 
 ```bash
 composer require maatify/bootstrap
 ````
 
-For development and testing:
+---
 
-```bash
-composer install
-composer run-script test
-```
+## 🧩 Features
+
+* 🔐 Unified `.env` file loader with priority-based detection
+* 🌍 Timezone configuration (`APP_TIMEZONE` → default `Africa/Cairo`)
+* 🧠 Smart environment caching via `EnvHelper`
+* 🧱 Cross-library bootstrap via `Bootstrap::init()`
+* 🚦 Safe Mode activation for production protection
+* 🧪 Full PHPUnit test coverage with CI integration
+* 🐳 Docker & GitHub Actions ready
+
+---
+
+## 🧠 Environment Loading Priority
+
+`maatify/bootstrap` loads only one `.env` file per execution — based on strict precedence:
+
+| Priority | File           | Purpose                            |
+|----------|----------------|------------------------------------|
+| 1️⃣      | `.env.local`   | Developer/private overrides        |
+| 2️⃣      | `.env.testing` | CI or PHPUnit configuration        |
+| 3️⃣      | `.env`         | Main production configuration      |
+| 4️⃣      | `.env.example` | Always-available fallback template |
+
+> Once a file is found, loading **stops immediately** — ensuring lower-priority files cannot override higher ones.
+> Uses `Dotenv::createImmutable()` for safety, preventing accidental overwrites.
 
 ---
 
@@ -65,83 +74,68 @@ composer run-script test
 
 ```php
 use Maatify\Bootstrap\Core\Bootstrap;
-use Maatify\PsrLogger\LoggerFactory;
 
-// Initialize the bootstrap system
 Bootstrap::init();
 
-// Optionally run diagnostics
+// Access loaded variables
+$env = $_ENV['APP_ENV'] ?? 'production';
+echo "Running in environment: $env";
+```
+
+or for diagnostic mode:
+
+```php
+use Maatify\Bootstrap\Core\BootstrapDiagnostics;
+use Maatify\PsrLogger\LoggerFactory;
+
 $logger = LoggerFactory::create('bootstrap');
-$diag = new \Maatify\Bootstrap\Core\BootstrapDiagnostics($logger);
+$diag = new BootstrapDiagnostics($logger);
+
 print_r($diag->run());
+```
+
+---
+
+## 🧰 Docker Integration
+
+For consistent environment parity between local and CI:
+
+```bash
+docker compose up --build
+docker compose exec bootstrap composer run-script test
 ```
 
 ---
 
 ## 🧪 Testing
 
-Run all PHPUnit tests locally:
+Run tests locally:
 
 ```bash
 composer run-script test
 ```
 
-To execute tests inside Docker:
+CI is automatically triggered via GitHub Actions:
 
-```bash
-docker compose up --build
+```
+.github/workflows/tests.yml
 ```
 
 ---
 
-## 🧰 Project Structure
+## 📄 Documentation
 
-```
-maatify/bootstrap/
-├── src/
-│   └── Core/
-│       ├── Bootstrap.php
-│       ├── BootstrapDiagnostics.php
-│       └── EnvironmentLoader.php
-├── tests/
-│   ├── BootstrapTest.php
-│   ├── EnvironmentLoaderTest.php
-│   ├── DiagnosticsTest.php
-│   └── IntegrationTest.php
-├── docs/
-│   ├── README.phase1.md → Foundations  
-│   ├── README.phase5.md → Environment Order  
-│   ├── README.phase6.md → CI & Docker Integration  
-│   └── README.full.md   → (auto-generated merged documentation)
-└── composer.json
-```
+Full technical documentation covering all phases (1 → 7):
+👉 [**docs/README.full.md**](./docs/README.full.md)
 
 ---
 
-## 🔗 Documentation Phases
+## 🧾 License
 
-| Phase                            | Description                        |
-|----------------------------------|------------------------------------|
-| [Phase 1](docs/README.phase1.md) | Core Bootstrapping                 |
-| [Phase 2](docs/README.phase2.md) | Environment Loader                 |
-| [Phase 3](docs/README.phase3.md) | Helpers & Path System              |
-| [Phase 4](docs/README.phase4.md) | Integration & Tests                |
-| [Phase 5](docs/README.phase5.md) | Environment Priority Logic         |
-| [Phase 6](docs/README.phase6.md) | CI/CD & Docker Integration         |
-| 🧩 **Next:** Phase 7             | Release Merge & Full Documentation |
+This project is open-sourced under the [MIT License](LICENSE).
+© 2025 [Maatify.dev](https://www.maatify.dev) — All Rights Reserved.
 
 ---
 
-## 🏁 Coming Next (Phase 7 — Release & Documentation Merge)
-
-* Merge all phase documentation into `README.full.md`
-* Add Packagist, PHP version, and CI status badges
-* Publish version `v1.0.0` to Packagist
-* Enable automated version tagging via CI
-
----
-
-**©2025 Maatify.dev — All Rights Reserved**
-**Project:** `maatify:bootstrap`
-**Website:** [https://www.maatify.dev](https://www.maatify.dev)
+**Maatify Bootstrap** — *“Initialize once, stabilize everywhere.”*
 
