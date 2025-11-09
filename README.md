@@ -208,13 +208,6 @@ Full technical documentation covering all phases (1 → 7):
 
 ---
 
-## 🪪 License
-
-**[MIT license](LICENSE)** © [Maatify.dev](https://www.maatify.dev)  
-You’re free to use, modify, and distribute this library with attribution.
-
----
-
 ## 📚 Built Upon
 
 `maatify/bootstrap` is proudly built upon and extends several foundational open-source projects:
@@ -227,6 +220,13 @@ You’re free to use, modify, and distribute this library with attribution.
 
 > Special thanks to the maintainers of these open-source libraries
 > for providing the stable foundations that make this project possible. ❤️
+
+---
+
+## 🪪 License
+
+**[MIT license](LICENSE)** © [Maatify.dev](https://www.maatify.dev)  
+You’re free to use, modify, and distribute this library with attribution.
 
 ---
 
