@@ -2,24 +2,24 @@
 
 > Core bootstrap foundation for all Maatify libraries.
 
-Provides unified environment loading, configuration initialization, error handling, and helper utilities — ensuring consistent startup logic across the entire Maatify ecosystem.
+Provides unified environment loading, configuration initialization, error handling, helper utilities, and integration logic — ensuring consistent startup behavior across the entire Maatify ecosystem.
 
 ---
 
 ## ⚙️ Overview
-The **Maatify Bootstrap** package acts as the universal initialization layer for every Maatify project.  
-It guarantees predictable and consistent behavior by:
-- Loading environment variables from the correct source (`.env.local` → `.env.testing` → `.env`)
-- Setting system timezone and application configuration
+The **Maatify Bootstrap** package acts as the universal initialization layer for all Maatify projects.  
+It guarantees predictable behavior by:
+- Loading the correct `.env` file (`.env.local` → `.env.testing` → `.env`)
+- Setting system timezone and app configuration
 - Registering PSR-3-compatible error and exception handlers
 - Providing helper utilities for environment and path management
-- Integrating seamlessly with all Maatify libraries
+- Coordinating integration across all Maatify libraries
 
 Used by:
 - [`maatify/common`](https://packagist.org/packages/maatify/common)  
+- [`maatify/data-adapters`](https://packagist.org/packages/maatify/data-adapters)  
 - [`maatify/rate-limiter`](https://packagist.org/packages/maatify/rate-limiter)  
-- [`maatify/security-guard`](https://packagist.org/packages/maatify/security-guard)  
-- [`maatify/data-adapters`](https://packagist.org/packages/maatify/data-adapters)
+- [`maatify/security-guard`](https://packagist.org/packages/maatify/security-guard)
 
 ---
 
@@ -28,6 +28,7 @@ Used by:
 - [x] Phase 1 — Foundation Setup  
 - [x] Phase 2 — Bootstrap Core  
 - [x] Phase 3 — Helpers & Utilities  
+- [x] Phase 4 — Integration Layer  
 <!-- PHASE_STATUS_END -->
 
 | Phase | Status      | Files Created |
@@ -35,30 +36,35 @@ Used by:
 | 1     | ✅ Completed | 7             |
 | 2     | ✅ Completed | 3             |
 | 3     | ✅ Completed | 3             |
+| 4     | ✅ Completed | 3             |
 
 ---
 
 ## 🧠 Quick Start
-
 ```bash
 composer require maatify/bootstrap
 ````
 
 ```php
 use Maatify\Bootstrap\Core\Bootstrap;
+use Maatify\Bootstrap\Core\IntegrationManager;
+use Maatify\Bootstrap\Core\IntegrationValidator;
 use Maatify\Bootstrap\Helpers\EnvHelper;
 use Maatify\Bootstrap\Helpers\PathHelper;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-// Initialize the bootstrap system
+// Initialize the system
 Bootstrap::init(__DIR__);
 
-// Optional logger usage
-$logger = Bootstrap::logger();
-$logger?->info('Bootstrap initialized successfully.');
+// Register additional maatify libraries
+IntegrationManager::register('maatify/data-adapters', __DIR__);
+IntegrationManager::register('maatify/rate-limiter', __DIR__);
 
-// Use helpers
+// Validate integration
+print_r(IntegrationValidator::diagnostics());
+
+// Example helper usage
 echo EnvHelper::get('APP_ENV', 'production');
 echo PathHelper::logs();
 ```
@@ -88,17 +94,17 @@ Logging integration uses [`maatify/psr-logger`](https://packagist.org/packages/m
 
 ## 🧰 Helpers Overview
 
-### `EnvHelper`
+### EnvHelper
 
-Safe and cached access to environment variables.
+Safe and cached access to environment variables:
 
 ```php
 $debug = EnvHelper::get('APP_DEBUG', false);
 ```
 
-### `PathHelper`
+### PathHelper
 
-Builds normalized and cross-platform paths.
+Builds normalized and cross-platform paths:
 
 ```php
 $logPath = PathHelper::logs('2025/11/system.log');
@@ -112,14 +118,15 @@ $logPath = PathHelper::logs('2025/11/system.log');
 vendor/bin/phpunit --testdox
 ```
 
-Expected output:
+### Expected Output
 
 ```
 Maatify Bootstrap Test Suite
  ✔ Env loading priority
  ✔ Init is idempotent
- ✔ EnvHelper returns expected value
- ✔ PathHelper builds consistent paths
+ ✔ Env helper returns expected value
+ ✔ Path helper builds consistent paths
+ ✔ Integration across libraries
 ```
 
 ---
@@ -132,18 +139,22 @@ maatify-bootstrap/
 │   ├── Core/
 │   │   ├── EnvironmentLoader.php
 │   │   ├── Bootstrap.php
-│   │   └── ErrorHandler.php
+│   │   ├── ErrorHandler.php
+│   │   ├── IntegrationManager.php
+│   │   └── IntegrationValidator.php
 │   └── Helpers/
 │       ├── EnvHelper.php
 │       └── PathHelper.php
 ├── tests/
 │   ├── EnvironmentLoaderTest.php
 │   ├── BootstrapTest.php
-│   └── HelpersTest.php
+│   ├── HelpersTest.php
+│   └── IntegrationTest.php
 ├── docs/phases/
 │   ├── README.phase1.md
 │   ├── README.phase2.md
-│   └── README.phase3.md
+│   ├── README.phase3.md
+│   └── README.phase4.md
 ├── .env.example
 ├── composer.json
 ├── phpunit.xml
@@ -157,3 +168,4 @@ maatify-bootstrap/
 Released under the **MIT License**.
 © 2025 Maatify.dev — All rights reserved.
 
+---
