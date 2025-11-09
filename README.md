@@ -153,7 +153,7 @@ Full technical documentation covering all phases (1 → 7):
 
 ## 🪪 License
 
-**[MIT license](LICENSE)** © [Maatify.dev](https://www.maatify.dev)
+**[MIT license](LICENSE)** © [Maatify.dev](https://www.maatify.dev)  
 You’re free to use, modify, and distribute this library with attribution.
 
 ---
