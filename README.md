@@ -1,25 +1,19 @@
-# 🧩 Maatify Bootstrap
+![**Maatify.dev**](https://www.maatify.dev/assets/img/img/maatify_logo_white.svg)
+---
 
-> Core bootstrap foundation for all Maatify libraries.
+# ⚙️ Maatify Bootstrap  
+### Unified Environment Initialization & Startup Foundation
 
-Provides unified environment loading, configuration initialization, error handling, helper utilities, and integration logic — ensuring consistent startup behavior across the entire Maatify ecosystem.
+[![Current Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://packagist.org/packages/maatify/bootstrap)
+[![PHP Version](https://img.shields.io/packagist/php-v/maatify/bootstrap)](https://packagist.org/packages/maatify/bootstrap)
+[![License](https://img.shields.io/github/license/Maatify/bootstrap)](LICENSE)
+[![Build Status](https://github.com/Maatify/bootstrap/actions/workflows/tests.yml/badge.svg)](https://github.com/Maatify/bootstrap/actions)
 
 ---
 
-## ⚙️ Overview
-The **Maatify Bootstrap** package acts as the universal initialization layer for all Maatify projects.  
-It guarantees predictable behavior by:
-- Loading the correct `.env` file (`.env.local` → `.env.testing` → `.env`)
-- Setting system timezone and app configuration
-- Registering PSR-3-compatible error and exception handlers
-- Providing helper utilities for environment and path management
-- Coordinating integration across all Maatify libraries
-
-Used by:
-- [`maatify/common`](https://packagist.org/packages/maatify/common)  
-- [`maatify/data-adapters`](https://packagist.org/packages/maatify/data-adapters)  
-- [`maatify/rate-limiter`](https://packagist.org/packages/maatify/rate-limiter)  
-- [`maatify/security-guard`](https://packagist.org/packages/maatify/security-guard)
+## 🧭 Overview
+`maatify/bootstrap` provides a unified initialization system for all Maatify libraries and applications.  
+It ensures consistent environment loading, timezone setup, diagnostics, and Safe Mode activation across **development**, **testing**, and **production** environments.
 
 ---
 
@@ -29,101 +23,74 @@ Used by:
 - [x] Phase 2 — Bootstrap Core  
 - [x] Phase 3 — Helpers & Utilities  
 - [x] Phase 4 — Integration Layer  
+- [x] Phase 5 — Diagnostics & Safe Mode  
 <!-- PHASE_STATUS_END -->
-
-| Phase | Status      | Files Created |
-|:------|:------------|:--------------|
-| 1     | ✅ Completed | 7             |
-| 2     | ✅ Completed | 3             |
-| 3     | ✅ Completed | 3             |
-| 4     | ✅ Completed | 3             |
 
 ---
 
-## 🧠 Quick Start
+## 🧩 Installation
 ```bash
 composer require maatify/bootstrap
 ````
 
+---
+
+## ⚙️ Quick Start
+
 ```php
 use Maatify\Bootstrap\Core\Bootstrap;
-use Maatify\Bootstrap\Core\IntegrationManager;
-use Maatify\Bootstrap\Core\IntegrationValidator;
-use Maatify\Bootstrap\Helpers\EnvHelper;
-use Maatify\Bootstrap\Helpers\PathHelper;
 
-require_once __DIR__ . '/vendor/autoload.php';
-
-// Initialize the system
-Bootstrap::init(__DIR__);
-
-// Register additional maatify libraries
-IntegrationManager::register('maatify/data-adapters', __DIR__);
-IntegrationManager::register('maatify/rate-limiter', __DIR__);
-
-// Validate integration
-print_r(IntegrationValidator::diagnostics());
-
-// Example helper usage
-echo EnvHelper::get('APP_ENV', 'production');
-echo PathHelper::logs();
+Bootstrap::init();
 ```
 
----
+This call:
 
-## 🧩 Environment Priority
-
-| Order | File           | Purpose                          |
-|:------|:---------------|:---------------------------------|
-| 1     | `.env.local`   | Local development overrides      |
-| 2     | `.env.testing` | Automated testing configuration  |
-| 3     | `.env`         | Default production configuration |
+1. Loads environment variables from the first available `.env*` file
+2. Sets PHP timezone based on `APP_TIMEZONE` (defaults to `Africa/Cairo`)
+3. Registers global error handling
+4. Ensures idempotent initialization
 
 ---
 
-## ⚙️ Error Handling
+## 🧠 Environment Loading Priority
 
-The `ErrorHandler` automatically registers global handlers for:
-
-* PHP errors → logged as `error`
-* Uncaught exceptions → logged as `critical` and written to `STDERR`
-
-Logging integration uses [`maatify/psr-logger`](https://packagist.org/packages/maatify/psr-logger).
-
----
-
-## 🧰 Helpers Overview
-
-### EnvHelper
-
-Safe and cached access to environment variables:
+Your environment loader checks files in this strict order:
 
 ```php
-$debug = EnvHelper::get('APP_DEBUG', false);
+$envFiles = ['.env.local', '.env.testing', '.env', '.env.example'];
 ```
 
-### PathHelper
+The loader stops once the first file is found — ensuring **only one** environment is active per run.
 
-Builds normalized and cross-platform paths:
+| Priority | File           | Purpose                                        | Safe to Commit? |
+| -------- | -------------- | ---------------------------------------------- | --------------- |
+| 🥇 1     | `.env.local`   | Developer overrides (private configs)          | ❌               |
+| 🥈 2     | `.env.testing` | CI / PHPUnit / integration tests               | ✅               |
+| 🥉 3     | `.env`         | Shared production configuration                | ✅               |
+| 🏁 4     | `.env.example` | Fallback / template for first-run environments | ✅               |
 
-```php
-$logPath = PathHelper::logs('2025/11/system.log');
-```
+> **Immutable Mode:**
+> The loader uses `Dotenv::createImmutable()`, ensuring later files cannot override existing variables.
+> Even if `.env.example` exists in production, it cannot override `.env`.
 
 ---
 
 ## 🧪 Testing
 
+Run all automated tests:
+
 ```bash
-vendor/bin/phpunit --testdox
+composer run-script test
 ```
 
-### Expected Output
+Expected output:
 
 ```
 Maatify Bootstrap Test Suite
- ✔ Env loading priority
  ✔ Init is idempotent
+ ✔ Diagnostics return expected structure
+ ✔ Safe mode detection
+ ✔ Env loading priority
  ✔ Env helper returns expected value
  ✔ Path helper builds consistent paths
  ✔ Integration across libraries
@@ -131,41 +98,47 @@ Maatify Bootstrap Test Suite
 
 ---
 
-## 🧱 Project Structure
+## 📁 Core Components
 
-```
-maatify-bootstrap/
-├── src/
-│   ├── Core/
-│   │   ├── EnvironmentLoader.php
-│   │   ├── Bootstrap.php
-│   │   ├── ErrorHandler.php
-│   │   ├── IntegrationManager.php
-│   │   └── IntegrationValidator.php
-│   └── Helpers/
-│       ├── EnvHelper.php
-│       └── PathHelper.php
-├── tests/
-│   ├── EnvironmentLoaderTest.php
-│   ├── BootstrapTest.php
-│   ├── HelpersTest.php
-│   └── IntegrationTest.php
-├── docs/phases/
-│   ├── README.phase1.md
-│   ├── README.phase2.md
-│   ├── README.phase3.md
-│   └── README.phase4.md
-├── .env.example
-├── composer.json
-├── phpunit.xml
-└── README.md
+| Component              | Description                                                  |
+| ---------------------- | ------------------------------------------------------------ |
+| `EnvironmentLoader`    | Loads the appropriate `.env` file with strict priority order |
+| `Bootstrap`            | Central initialization entry point                           |
+| `BootstrapDiagnostics` | Runs environment and runtime health checks                   |
+| `EnvHelper`            | Cached access to environment variables                       |
+| `PathHelper`           | Unified base path resolver                                   |
+
+---
+
+## 🧩 Example: Runtime Diagnostics
+
+```php
+use Maatify\Bootstrap\Core\BootstrapDiagnostics;
+use Maatify\PsrLogger\LoggerFactory;
+
+$logger = LoggerFactory::create('bootstrap');
+$diag = new BootstrapDiagnostics($logger);
+
+$results = $diag->run();
+print_r($results);
+
+$diag->activateSafeMode(); // activates Safe Mode if unsafe .env detected
 ```
 
 ---
 
-## 📘 License
+## 🧾 Roadmap
 
-Released under the **MIT License**.
-© 2025 Maatify.dev — All rights reserved.
+Next phase (6): **Advanced Integration & Release**
+
+* [ ] Add GitHub Actions CI workflow
+* [ ] Add Dockerfile + docker-compose for local bootstrap testing
+* [ ] Generate `CHANGELOG.md` and `VERSION`
+* [ ] Tag `v1.0.0` and publish to Packagist
 
 ---
+
+**© 2025 [Maatify.dev](https://www.maatify.dev) — Unified Development Ecosystem**
+
+
+
