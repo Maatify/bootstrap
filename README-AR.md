@@ -84,9 +84,14 @@ composer require maatify/bootstrap
 
 ```mermaid
 graph TD
-    A[maatify/psr-logger] --> B[maatify/common]
-    B --> C[maatify/bootstrap]
-    C --> D[مكتبات Maatify الأخرى<br>(rate-limiter, redis-cache, security-guard...)]
+    A[maatify/psr-logger]:::core --> B[maatify/common]:::core
+    B --> C[maatify/bootstrap]:::main
+    C --> D[Other Maatify Libraries\n(rate-limiter, redis-cache, security-guard...)]:::ext
+
+    classDef core fill:#a3d2ff,stroke:#004aad,stroke-width:2px;
+    classDef main fill:#d1ffd1,stroke:#008000,stroke-width:2px;
+    classDef ext fill:#fff3b0,stroke:#ffb300,stroke-width:2px;
+
 ```
 
 > يوضح هذا المخطط كيف تعتمد جميع مكتبات Maatify على نفس النواة الأساسية
