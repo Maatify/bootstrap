@@ -83,14 +83,15 @@ composer require maatify/bootstrap
 #### 📦 مخطط تسلسل الاعتماد (Dependency Chain Diagram)
 
 ```mermaid
-graph TD 
-    A[maatify/psr-logger]:::core --> B[maatify/common]:::core 
-    B --> C[maatify/bootstrap]:::main 
-    C --> D["Other Maatify Libraries (rate-limiter, redis-cache, security-guard...)"]:::ext 
-    
-    classDef core fill:#a3d2ff,stroke:#004aad,stroke-width:2px; 
-    classDef main fill:#d1ffd1,stroke:#008000,stroke-width:2px; 
-    classDef ext fill:#fff3b0,stroke:#ffb300,stroke-width:2px; 
+graph TD
+    A[maatify/psr-logger]:::core --> B[maatify/common]:::core
+    B --> C[maatify/bootstrap]:::main
+    C --> D["Other Maatify Libraries (rate-limiter, redis-cache, security-guard...)"]:::ext
+
+    classDef core fill:#0066cc,color:#ffffff,stroke:#003366,stroke-width:2px;
+    classDef main fill:#009933,color:#ffffff,stroke:#004d1a,stroke-width:2px;
+    classDef ext fill:#ffcc00,color:#000000,stroke:#996600,stroke-width:2px;
+
 
 ```
 
