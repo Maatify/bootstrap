@@ -94,3 +94,7 @@ Maatify Bootstrap Test Suite
 
 ---
 
+**© 2025 Maatify.dev — All rights reserved.**
+
+
+

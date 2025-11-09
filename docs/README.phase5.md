@@ -124,3 +124,7 @@ Safe Mode logic and diagnostics are now production-ready, providing automatic en
 
 ---
 
+**© 2025 Maatify.dev — All rights reserved.**
+
+
+

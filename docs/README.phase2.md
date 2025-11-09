@@ -84,4 +84,8 @@ Maatify Bootstrap Test Suite
 
 ✅ **Completed** — Core bootstrap logic, error handling, and initialization fully implemented and verified.
 
+
 ---
+
+**© 2025 Maatify.dev — All rights reserved.**
+

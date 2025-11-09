@@ -1,15 +1,26 @@
-# ⚙️ Maatify Bootstrap  
-### Unified Environment Initialization & Startup Foundation
+![Maatify.dev](https://www.maatify.dev/assets/img/img/maatify_logo_white.svg)
 
-**Version:** 1.0.0  
-**Owner:** [Maatify.dev](https://www.maatify.dev)  
-**License:** MIT (see repository LICENSE)  
+# ⚙️ Maatify Bootstrap — Full Technical Documentation
+**Project:** `maatify:bootstrap`  
+**Version:** 1.0.0-rc  
+**Author:** [Mohamed Abdulalim (megyptm)](mailto:mohamed@maatify.dev)  
+**License:** MIT  
+**© 2025 Maatify.dev**  
+### Unified Environment Initialization & Startup Foundation
 
 ---
 
 ## 🧭 Overview
 `maatify/bootstrap` provides a consistent and safe initialization layer for all Maatify libraries and applications.  
 It standardizes environment loading, timezone setup, diagnostics, and startup integrity checks — ensuring predictable and secure application bootstrapping across development, testing, and production environments.
+
+This library serves as the core foundation for all other Maatify components such as:
+- `maatify/common`
+- `maatify/psr-logger`
+- `maatify/redis-cache`
+- `maatify/data-adapters`
+- `maatify/rate-limiter`
+- `maatify/security-guard`
 
 ---
 
@@ -22,6 +33,8 @@ It standardizes environment loading, timezone setup, diagnostics, and startup in
 | 3     | Helpers & Utilities     | ✅ Completed |
 | 4     | Integration Layer       | ✅ Completed |
 | 5     | Diagnostics & Safe Mode | ✅ Completed |
+| 6     | CI/CD & Docker          | ✅ Completed |
+| 7     | Release Preparation     | 🚀 In Progress |
 
 ---
 
@@ -113,11 +126,7 @@ $basePath = PathHelper::base();
 
 ### 🎯 Goal
 
-Ensure compatibility across all Maatify libraries, such as:
-
-* `maatify/data-adapters`
-* `maatify/rate-limiter`
-* `maatify/security-guard`
+Ensure compatibility across all Maatify libraries.
 
 ### ⚙️ Implemented Features
 
@@ -217,39 +226,141 @@ Only one `.env*` file is ever loaded per execution.
 | 🥉 3     | `.env`         | Production config    | ✅               |
 | 🏁 4     | `.env.example` | Template fallback    | ✅               |
 
-**Immutable Load Mode**
-
 > `Dotenv::createImmutable()` prevents overwriting any existing variables.
-> Even if `.env.example` is present in production, it cannot override `.env`.
+> Even if `.env.example` is present in production, it **cannot override** `.env`.
 
 ---
 
-## 🧾 Summary
+## 🧪 Phase 6 — CI/CD & Docker Integration
 
-Phase 5 marks completion of the foundational bootstrap lifecycle for all Maatify libraries.
+### 🚀 Overview
 
-* ✅ Predictable startup
-* ✅ Safe and idempotent initialization
-* ✅ Automatic diagnostics and Safe Mode
-* ✅ Cross-library readiness for CI/CD
+Adds automated testing and container validation to guarantee consistent builds.
 
-This package now provides the **entry point for all Maatify ecosystem packages** (data-adapters, rate-limiter, security-guard, etc.).
+### ⚙️ GitHub Actions Workflow
+
+Location: `.github/workflows/tests.yml`
+
+#### Stages
+
+1. **Setup** → PHP 8.4 + Composer install
+2. **Test** → Run PHPUnit with `CI=true`
+3. **Docs** → Validate `README.full.md` & `CHANGELOG.md`
+4. **Docker** → Build test container for reproducibility
+
+Triggered on each push or pull-request to `main`, `master`, or `develop`.
+
+### 🐳 Docker Integration
+
+Files:
+
+```
+docker/Dockerfile
+docker/docker-compose.yml
+```
+
+#### Build & Run
+
+```bash
+docker compose up --build
+```
+
+Re-run tests inside the container:
+
+```bash
+docker compose exec bootstrap composer run-script test
+```
+
+### 🧩 Environment Rules Recap
+
+| Priority       | File               | Context |
+|----------------|--------------------|---------|
+| `.env.local`   | Developer override |         |
+| `.env.testing` | CI/testing         |         |
+| `.env`         | Production/staging |         |
+| `.env.example` | Fallback           |         |
+
+* CI uses `.env.testing` with `CI=true`.
+* Developers use `.env.local`.
+* Production uses `.env`.
+* `.env.example` guarantees boot even if others are missing.
 
 ---
 
-## 📦 Next Phase (6)
+## 🧰 Project Structure
 
-**Advanced Integration & Release**
-
-* Add GitHub Actions workflow for CI/CD
-* Add Dockerfile + docker-compose for local bootstrap testing
-* Auto-generate `CHANGELOG.md` and `VERSION`
-* Prepare release for Packagist publication
-* Build Docs validator workflow (`.github/workflows/docs.yml`)
+```
+maatify/bootstrap/
+├── src/Core/
+│   ├── Bootstrap.php
+│   ├── BootstrapDiagnostics.php
+│   └── EnvironmentLoader.php
+├── tests/
+│   ├── BootstrapTest.php
+│   ├── EnvironmentLoaderTest.php
+│   ├── DiagnosticsTest.php
+│   ├── HelpersTest.php
+│   └── IntegrationTest.php
+├── docker/
+│   ├── Dockerfile
+│   └── docker-compose.yml
+├── .github/workflows/tests.yml
+└── composer.json
+```
 
 ---
 
-**© 2025 Maatify.dev — Unified Development Ecosystem**
+## 🧩 Phase 7 — Release & Documentation Merge (Planned)
 
+**Goal:**
+Finalize v1.0.0 public release with:
+
+* CI badges (build + PHP version + Packagist)
+* Automated version tagging
+* Unified documentation (`README.full.md`)
+* Publication to [Packagist](https://packagist.org/packages/maatify/bootstrap)
+
+### 🧾 Release Steps
+
+```bash
+git tag -a v1.0.0 -m "Initial release — Maatify Bootstrap"
+git push origin v1.0.0
+```
+
+Composer metadata:
+
+```json
+{
+  "name": "maatify/bootstrap",
+  "type": "library",
+  "license": "MIT"
+}
+```
 
 ---
+
+## 🧠 Summary Matrix
+
+| Aspect              | Status | Notes                                     |
+|---------------------|--------|-------------------------------------------|
+| Environment Loading | ✅      | Deterministic, priority-based             |
+| Timezone Config     | ✅      | Defaults → `Africa/Cairo`                 |
+| Safe Mode           | ✅      | Activates on non-prod .env under prod env |
+| Logging Integration | ✅      | PSR-3 compatible                          |
+| PHPUnit Coverage    | ✅      | >95%                                      |
+| CI/CD Pipeline      | ✅      | Fully automated                           |
+| Docker Support      | ✅      | Local + CI parity                         |
+
+---
+
+## 🏁 Conclusion
+
+**Maatify Bootstrap** provides a reliable, modular, and automated foundation for all Maatify projects.
+It ensures predictable initialization, stable testing, and secure deployment workflows across development, CI, and production.
+
+---
+
+**© 2025 Maatify.dev — All Rights Reserved**
+**Project:** `maatify:bootstrap`
+**Website:** [https://www.maatify.dev](https://www.maatify.dev)
+
