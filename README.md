@@ -42,6 +42,21 @@ composer require maatify/bootstrap
 
 ---
 
+## 📦 Dependencies
+
+This library relies on:
+
+| Dependency           | Purpose                                           | Link                                                               |
+|----------------------|---------------------------------------------------|--------------------------------------------------------------------|
+| **vlucas/phpdotenv** | Secure `.env` file loader and environment manager | [github.com/vlucas/phpdotenv](https://github.com/vlucas/phpdotenv) |
+| **psr/log**          | PSR-3 compatible logging interface                | [www.php-fig.org/psr/psr-3](https://www.php-fig.org/psr/psr-3/)    |
+| **phpunit/phpunit**  | Unit testing framework (development only)         | [phpunit.de](https://phpunit.de)                                   |
+
+> `maatify/bootstrap` builds upon these open-source libraries to provide a unified and secure initialization layer
+> across the entire Maatify ecosystem.
+
+---
+
 ## 🧩 Features
 
 * 🔐 Unified `.env` file loader with priority-based detection
@@ -66,7 +81,7 @@ composer require maatify/bootstrap
 | 4️⃣      | `.env.example` | Always-available fallback template |
 
 > Once a file is found, loading **stops immediately** — ensuring lower-priority files cannot override higher ones.
-> Uses `Dotenv::createImmutable()` for safety, preventing accidental overwrites.
+> Uses `Dotenv::createImmutable()` (from **vlucas/phpdotenv**) for safety, preventing accidental overwrites.
 
 ---
 
@@ -130,12 +145,36 @@ Full technical documentation covering all phases (1 → 7):
 
 ---
 
-## 🧾 License
-
-This project is open-sourced under the [MIT License](LICENSE).
-© 2025 [Maatify.dev](https://www.maatify.dev) — All Rights Reserved.
+**Maatify Bootstrap** — *“Initialize once, stabilize everywhere.”*
 
 ---
 
-**Maatify Bootstrap** — *“Initialize once, stabilize everywhere.”*
+## 🪪 License
 
+**[MIT license](LICENSE)** © [Maatify.dev](https://www.maatify.dev)
+You’re free to use, modify, and distribute this library with attribution.
+
+---
+
+## 📚 Built Upon
+
+`maatify/bootstrap` is proudly built upon and extends several foundational open-source projects:
+
+| Library                                                     | Description                             | Usage in Project                                                                                |
+|-------------------------------------------------------------|-----------------------------------------|-------------------------------------------------------------------------------------------------|
+| **[vlucas/phpdotenv](https://github.com/vlucas/phpdotenv)** | Industry-standard `.env` loader for PHP | Provides immutable and secure environment loading across all Maatify projects.                  |
+| **[psr/log](https://www.php-fig.org/psr/psr-3/)**           | PHP-FIG PSR-3 logging interface         | Enables standardized, interchangeable logging (used by `BootstrapDiagnostics` and PSR loggers). |
+| **[phpunit/phpunit](https://phpunit.de)**                   | PHP unit testing framework              | Powers the complete automated test suite with CI/CD integration.                                |
+
+> Special thanks to the maintainers of these open-source libraries
+> for providing the stable foundations that make this project possible. ❤️
+
+---
+
+## 🧱 Authors & Credits
+
+**Developed by:** [**Maatify.dev**](https://www.maatify.dev)
+**Maintainer:** Mohamed Abdulalim
+**Project:** `maatify:bootstrap`
+
+---
