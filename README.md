@@ -173,8 +173,8 @@ You’re free to use, modify, and distribute this library with attribution.
 
 ## 🧱 Authors & Credits
 
-**Developed by:** [**Maatify.dev**](https://www.maatify.dev)
-**Maintainer:** Mohamed Abdulalim
+**Developed by:** [**Maatify.dev**](https://www.maatify.dev)  
+**Maintainer:** Mohamed Abdulalim  
 **Project:** `maatify:bootstrap`
 
 ---
