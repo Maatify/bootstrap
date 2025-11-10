@@ -44,6 +44,12 @@
   "require-dev": {
     "phpunit/phpunit": "^10.0"
   },
+
+  "autoload-dev": {
+    "psr-4": {
+      "Maatify\\Bootstrap\\Tests\\": "tests/"
+    }
+  },
   "scripts": {
     "test": "vendor/bin/phpunit --testdox"
   }
