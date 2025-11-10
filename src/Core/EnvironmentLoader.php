@@ -22,33 +22,32 @@ use Exception;
 /**
  * ⚙️ **Class EnvironmentLoader**
  *
- * 🧩 **Purpose:**
- * Provides a unified, consistent, and secure method for loading environment
- * variables across all **Maatify** projects and libraries.
- * Ensures correct prioritization between `.env` variants, safe immutability,
- * and automatic timezone setup post-load.
+ * 🎯 **Purpose:**
+ * Provides a robust, unified mechanism for loading environment variables across
+ * all **Maatify** libraries and applications, ensuring consistency, safety, and
+ * predictable configuration behavior.
  *
- * 🧠 **Priority Loading Order:**
- * 1️⃣ `.env.local` — Local developer overrides
- * 2️⃣ `.env.testing` — Test environment variables
- * 3️⃣ `.env` — Default fallback for production or staging
- * 4️⃣ `.env.example` — Used as a last-resort fallback for validation or defaults
+ * 🧠 **Core Responsibilities:**
+ * - Load environment variables from the correct file (`.env.local`, `.env.testing`, `.env`, or `.env.example`).
+ * - Prevent overriding system or CI-defined environment variables (immutable mode).
+ * - Apply the application timezone automatically after loading.
+ * - Throw explicit errors when no `.env` file is found.
  *
- * ✅ **Key Features:**
- * - Loads the first available file in the priority list.
- * - Prevents overwriting of already defined environment variables (immutable mode).
- * - Automatically applies application timezone via `date_default_timezone_set()`.
- * - Throws clear exception if no `.env` file is found.
+ * 🧩 **Priority Load Order:**
+ * 1️⃣ `.env.local` — local developer overrides
+ * 2️⃣ `.env.testing` — test environment variables
+ * 3️⃣ `.env` — default environment file
+ * 4️⃣ `.env.example` — fallback for defaults or CI builds
  *
- * ⚙️ **Example Usage:**
+ * ✅ **Example Usage:**
  * ```php
  * use Maatify\Bootstrap\Core\EnvironmentLoader;
  *
- * // Initialize loader at the project root
+ * // Initialize and load environment variables
  * $env = new EnvironmentLoader(__DIR__ . '/../');
  * $env->load();
  *
- * echo 'Environment: ' . $_ENV['APP_ENV'] ?? 'unknown';
+ * echo 'Environment: ' . ($_ENV['APP_ENV'] ?? 'unknown');
  * ```
  *
  * @package Maatify\Bootstrap\Core
@@ -56,9 +55,9 @@ use Exception;
 final class EnvironmentLoader
 {
     /**
-     * 📂 Base directory containing environment files.
+     * 📂 **Base Directory Path**
      *
-     * Typically this is the project root directory.
+     * The directory that contains the environment files. Typically the project root.
      *
      * @var string
      */
@@ -67,46 +66,55 @@ final class EnvironmentLoader
     }
 
     /**
-     * 🎯 Load the appropriate `.env` file based on Maatify priority rules.
+     * 🚀 **Load Environment Variables**
      *
-     * The loader iterates over `.env.local`, `.env.testing`, `.env`, and `.env.example`
-     * in order, and loads the first existing file it encounters.
-     * It uses **immutable mode** to ensure that previously defined environment
-     * variables (via system or CI/CD) are not overridden.
+     * Loads environment variables based on the Maatify priority rules.
+     * The first matching file among `.env.local`, `.env.testing`, `.env`, or `.env.example`
+     * is loaded using **immutable mode**, meaning system-level environment variables
+     * (e.g., from Docker, CI/CD, or OS) will not be overridden.
      *
-     * 🧠 After successful loading, the application timezone is automatically
-     * set using the value of `APP_TIMEZONE` or defaults to **Africa/Cairo**.
+     * 🧠 **Post-Load Behavior:**
+     * - Ensures system-defined variables remain intact.
+     * - Automatically applies timezone via `date_default_timezone_set()`.
+     * - Throws clear exception if no `.env` file exists.
      *
-     * 🚫 Throws:
-     * - `Exception` when no environment file is found in the provided base path.
+     * @throws Exception When no valid environment file is found.
      *
-     * @throws Exception If no `.env` file exists in the given directory.
      * @return void
      */
     public function load(): void
     {
-        // 🔍 Check environment files in order of precedence
+        // 🔍 Priority order for environment files
         $envFiles = ['.env.local', '.env.testing', '.env', '.env.example'];
         $loaded   = false;
+
+        // Preserve pre-existing environment variables
+        $existing = $_ENV;
 
         foreach ($envFiles as $file) {
             $path = $this->basePath . DIRECTORY_SEPARATOR . $file;
 
-            // ✅ Load the first available file and stop checking further
+            // ✅ Load first available file, stop after success
             if (is_file($path)) {
-                // 🧩 Use Dotenv's immutable mode for safety (prevents accidental overrides)
+                // 🧩 Load in immutable mode — prevents overriding pre-defined variables
                 Dotenv::createImmutable($this->basePath, $file)->load();
                 $loaded = true;
                 break;
             }
         }
 
-        // 🚫 Throw if no valid environment file was found
+        // 🚫 Throw if no valid .env file found
         if (! $loaded) {
             throw new Exception('No .env file found in ' . $this->basePath);
         }
 
-        // 🕒 Set timezone from environment or default to Africa/Cairo
+        // ♻️ Restore original environment variables (maintain immutability guarantee)
+        foreach ($existing as $key => $value) {
+            $_ENV[$key] = $value;
+            putenv("$key=$value");
+        }
+
+        // 🕒 Apply timezone setting (default: Africa/Cairo)
         $timezone = $_ENV['APP_TIMEZONE']
                     ?? $_SERVER['APP_TIMEZONE']
                        ?? 'Africa/Cairo';
