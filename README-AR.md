@@ -11,6 +11,8 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/maatify/bootstrap?label=Total%20Downloads&color=2AA)](https://packagist.org/packages/maatify/bootstrap)
 [![Stars](https://img.shields.io/github/stars/Maatify/bootstrap?label=Stars&color=FFD43B)](https://github.com/Maatify/bootstrap/stargazers)
 [![License](https://img.shields.io/github/license/Maatify/bootstrap?label=License&color=blueviolet)](LICENSE)
+[![Status](https://img.shields.io/badge/Status-Stable-success?style=flat-square)]()
+[![Code Quality](https://img.shields.io/codefactor/grade/github/Maatify/bootstrap/main)](https://www.codefactor.io/repository/github/Maatify/bootstrap)
 
 ---
 
