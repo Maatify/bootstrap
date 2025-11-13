@@ -7,6 +7,11 @@
 
 ---
 
+## [1.0.3] — 2025-11-13
+Release 1.0.3 (fix missing VERSION update)
+
+---
+
 ## [1.0.2] — 2025-11-13
 
 ### 🔒 **Stable Environment Loader (No Override Mode)**
