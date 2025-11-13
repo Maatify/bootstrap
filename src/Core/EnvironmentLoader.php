@@ -88,9 +88,6 @@ final class EnvironmentLoader
         $envFiles = ['.env.local', '.env.testing', '.env', '.env.example'];
         $loaded   = false;
 
-        // Preserve pre-existing environment variables
-        $existing = $_ENV;
-
         foreach ($envFiles as $file) {
             $path = $this->basePath . DIRECTORY_SEPARATOR . $file;
 
@@ -106,12 +103,6 @@ final class EnvironmentLoader
         // 🚫 Throw if no valid .env file found
         if (! $loaded) {
             throw new Exception('No .env file found in ' . $this->basePath);
-        }
-
-        // ♻️ Restore original environment variables (maintain immutability guarantee)
-        foreach ($existing as $key => $value) {
-            $_ENV[$key] = $value;
-            putenv("$key=$value");
         }
 
         // 🕒 Apply timezone setting (default: Africa/Cairo)

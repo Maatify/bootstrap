@@ -7,6 +7,18 @@
 
 ---
 
+## [1.0.4] - 2025-11-14
+### Changed
+- Removed legacy environment variable restoration logic from `EnvironmentLoader`.
+    - Deleted the immutability block that re-applied original `$_ENV` values after loading.
+    - Simplified the loader flow to avoid unintended overrides and ensure consistent variable precedence.
+
+### Improved
+- Environment loading now behaves predictably and respects the current process environment without forced rollback.
+- Codebase cleanup for clarity and reduced side-effects.
+
+---
+
 ## [1.0.3] — 2025-11-13
 Release 1.0.3 (fix missing VERSION update)
 
