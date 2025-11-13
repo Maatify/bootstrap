@@ -6,13 +6,18 @@
 
 [![Version](https://img.shields.io/packagist/v/maatify/bootstrap?label=Version&color=4C1)](https://packagist.org/packages/maatify/bootstrap)
 [![PHP](https://img.shields.io/packagist/php-v/maatify/bootstrap?label=PHP&color=777BB3)](https://packagist.org/packages/maatify/bootstrap)
-[![Build](https://github.com/Maatify/bootstrap/actions/workflows/tests.yml/badge.svg?label=Build&color=brightgreen)](https://github.com/Maatify/bootstrap/actions/workflows/tests.yml)
+[![Build](https://github.com/Maatify/bootstrap/actions/workflows/test.yml/badge.svg?label=Build&color=brightgreen)](https://github.com/Maatify/bootstrap/actions/workflows/test.yml)
+
 [![Monthly Downloads](https://img.shields.io/packagist/dm/maatify/bootstrap?label=Monthly%20Downloads&color=00A8E8)](https://packagist.org/packages/maatify/bootstrap)
-[![Total Downloads](https://img.shields.io/packagist/dt/maatify/bootstrap?label=Total%20Downloads&color=2AA)](https://packagist.org/packages/maatify/bootstrap)
-[![Stars](https://img.shields.io/github/stars/Maatify/bootstrap?label=Stars&color=FFD43B)](https://github.com/Maatify/bootstrap/stargazers)
+[![Total Downloads](https://img.shields.io/packagist/dt/maatify/bootstrap?label=Total%20Downloads&color=2AA9E0)](https://packagist.org/packages/maatify/bootstrap)
+
+[![Stars](https://img.shields.io/github/stars/Maatify/bootstrap?label=Stars&color=FFD43B&cacheSeconds=3600)](https://github.com/Maatify/bootstrap/stargazers)
 [![License](https://img.shields.io/github/license/Maatify/bootstrap?label=License&color=blueviolet)](LICENSE)
 [![Status](https://img.shields.io/badge/Status-Stable-success?style=flat-square)]()
-[![Code Quality](https://img.shields.io/codefactor/grade/github/Maatify/bootstrap/main)](https://www.codefactor.io/repository/github/Maatify/bootstrap)
+[![Code Quality](https://img.shields.io/codefactor/grade/github/Maatify/bootstrap/main?color=brightgreen)](https://www.codefactor.io/repository/github/Maatify/bootstrap)
+
+[![Changelog](https://img.shields.io/badge/Changelog-View-blue)](CHANGELOG.md)
+[![Security](https://img.shields.io/badge/Security-Policy-important)](SECURITY.md)
 
 ---
 
