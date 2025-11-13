@@ -23,7 +23,7 @@
 
 ### طبقة تهيئة موحّدة للبيئة وتشخيص الأنظمة  
 **المشروع:** `maatify:bootstrap`  
-**الإصدار:** 1.0.0  
+**الإصدار:** 1.0.3  
 **الترخيص:** MIT  
 **المطوّر:** [Mohamed Abdulalim (megyptm)](mailto:mohamed@maatify.dev)  
 **© 2025 Maatify.dev**

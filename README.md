@@ -23,7 +23,7 @@
 
 ### Unified Environment Initialization & Diagnostics Layer  
 **Project:** `maatify:bootstrap`  
-**Version:** 1.0.0  
+**Version:** 1.0.3  
 **License:** MIT  
 **Author:** [Mohamed Abdulalim (megyptm)](mailto:mohamed@maatify.dev)  
 **© 2025 Maatify.dev**
