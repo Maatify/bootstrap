@@ -58,9 +58,7 @@ final class EnvironmentLoader
     /**
      * 📂 **Base Directory Path**
      *
-     * The directory that contains the environment files. Typically the project root.
-     *
-     * @var string
+     * @param string $basePath Absolute path to the directory containing environment files
      */
     public function __construct(private readonly string $basePath)
     {
