@@ -84,8 +84,8 @@ final class EnvHelper
 
         // 🔍 Search through multiple sources
         $value = $_ENV[$key]
-                 ?? $_SERVER[$key]
-                    ?? getenv($key)
+                 ?? ($_SERVER[$key] ?? null)
+                    ?? (($env = getenv($key)) !== false ? $env : null)
                        ?? $default;
 
         // 🧠 Cache the resolved value for future requests
