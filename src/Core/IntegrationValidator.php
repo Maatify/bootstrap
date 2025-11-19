@@ -86,7 +86,11 @@ final class IntegrationValidator
      */
     public static function checkHandlers(): bool
     {
-        return is_callable(set_error_handler(fn () => null));
+        $handler = static function (int $errno, string $errstr, string $errfile, int $errline): bool {
+            return true;
+        };
+
+        return is_callable(set_error_handler($handler));
     }
 
     /**
