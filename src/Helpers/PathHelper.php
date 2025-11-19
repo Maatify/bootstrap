@@ -58,7 +58,13 @@ final class PathHelper
      */
     public static function base(?string $append = null): string
     {
-        self::$basePath ??= realpath(dirname(__DIR__, 2));
+        if (self::$basePath === null) {
+            $resolved = realpath(dirname(__DIR__, 2));
+            self::$basePath = is_string($resolved)
+                ? $resolved
+                : dirname(__DIR__, 2);
+        }
+
         return self::join(self::$basePath, $append);
     }
 
