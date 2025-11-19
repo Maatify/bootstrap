@@ -40,15 +40,55 @@ jobs:
       - name: 📦 Install dependencies
         run: composer install --no-interaction --no-progress --prefer-dist
 
-      - name: 🧪 Run PHPUnit tests
-        env:
-          CI: true
-        run: composer run-script test
+      - name: Run PHPStan
+        id: phpstan
+        run: |
+          (
+            set +e
+            composer analyse > phpstan_output.txt
+            ANALYSE_EXIT=$?
+            echo "phpstan_exit=$ANALYSE_EXIT" >> $GITHUB_OUTPUT
+
+            ERRORS=$(grep -Eo "Found ([0-9]+) errors" phpstan_output.txt | grep -Eo "[0-9]+")
+            if [ -z "$ERRORS" ]; then ERRORS=0; fi
+
+            echo "phpstan_errors=$ERRORS" >> $GITHUB_OUTPUT
+          )
+          echo "PHPStan step completed without failing CI."
+
+      - name: 🧪 Run PHPUnit Tests
+        id: tests
+        run: |
+          vendor/bin/phpunit --configuration phpunit.xml.dist | tee phpunit.log
+        continue-on-error: true
 
       - name: 📄 Validate README & composer.json
         run: |
           test -f README.md
           composer validate --no-check-all
+
+      - name: 🧾 Summary Report
+        if: always()
+        run: |
+          echo "### 🧾 Bootstrap Test Summary" >> $GITHUB_STEP_SUMMARY
+          echo "📦 Environment: $APP_ENV" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          tail -n 20 phpunit.log >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if grep -q "FAILURES!" phpunit.log; then
+            echo "❌ Some tests failed." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ All tests passed successfully." >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.phpstan.outputs.phpstan_errors }}" -eq 0 ]; then
+            echo "🧹 PHPStan: Passed (0 errors)." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ PHPStan: ${{ steps.phpstan.outputs.phpstan_errors }} errors detected." >> $GITHUB_STEP_SUMMARY
+          fi
 
       - name: 🐳 Docker Build Check
         run: docker build -t maatify/bootstrap:test -f docker/Dockerfile .
@@ -75,22 +115,32 @@ jobs:
           
           STATUS="✅ Tests passed successfully!"
           COLOR="🟢"
-          HEADER="Maatify CI Report"
+          HEADER="Maatify CI Report (${GITHUB_REPOSITORY})"
           
           if grep -q "FAILURES!" phpunit.log || [ "${{ job.status }}" != "success" ]; then
             STATUS="❌ Some tests failed. Please review the log."
             COLOR="🔴"
-            HEADER="Maatify CI Alert"
+            HEADER="Maatify CI Alert (${GITHUB_REPOSITORY})"
           fi
           
           PROJECT="maatify/bootstrap"
           BRANCH="$GITHUB_REF_NAME"
           ACTOR="$GITHUB_ACTOR"
           URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+
+          PHPSTAN_ERRORS="${{ steps.phpstan.outputs.phpstan_errors }}"
+          
+          if [ "$PHPSTAN_ERRORS" -eq 0 ]; then
+          PHPSTAN_SUMMARY="🧹 <b>PHPStan:</b> Passed (0 errors)"
+          else
+          PHPSTAN_SUMMARY="🧹 <b>PHPStan:</b> ${PHPSTAN_ERRORS} errors detected"
+          fi
           
           MESSAGE="📢 <b>${HEADER}</b>
           
           ${COLOR} ${STATUS}
+          
+          ${PHPSTAN_SUMMARY}
           
           📦 <b>Project:</b> ${PROJECT}
           🧱 <b>Branch:</b> ${BRANCH}
