@@ -130,9 +130,18 @@ final class BootstrapDiagnostics
      *
      * @return bool True if an error handler is callable and functional.
      */
+    /*    public function checkErrors(): bool
+        {
+            return is_callable(set_error_handler(static fn () => null));
+        }
+    */
     public function checkErrors(): bool
     {
-        return is_callable(set_error_handler(static fn () => null));
+        $callback = static function (int $errno, string $errstr, string $errfile, int $errline): bool {
+            return true; // minimal required return type
+        };
+
+        return is_callable(set_error_handler($callback));
     }
 
     /**
@@ -176,6 +185,7 @@ final class BootstrapDiagnostics
     {
         if ($this->isSafeMode()) {
             $env = EnvHelper::get('APP_ENV', 'production');
+            $env = is_scalar($env) ? (string)$env : 'production';
 
             $this->logger?->warning(
                 "⚠️ Safe Mode Activated: Non-production .env file detected under APP_ENV={$env}."
