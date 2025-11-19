@@ -59,7 +59,7 @@ jobs:
       - name: 🧪 Run PHPUnit Tests
         id: tests
         run: |
-          vendor/bin/phpunit --configuration phpunit.xml.dist | tee phpunit.log
+          vendor/bin/phpunit --configuration phpunit.xml | tee phpunit.log
         continue-on-error: true
 
       - name: 📄 Validate README & composer.json
