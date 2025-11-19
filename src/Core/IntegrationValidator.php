@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright   ©2025 Maatify.dev
  * @Library     maatify/bootstrap
@@ -13,8 +14,6 @@
 declare(strict_types=1);
 
 namespace Maatify\Bootstrap\Core;
-
-use Throwable;
 
 /**
  * ⚙️ Class IntegrationValidator
@@ -87,7 +86,7 @@ final class IntegrationValidator
      */
     public static function checkHandlers(): bool
     {
-        return is_callable(set_error_handler(fn() => null));
+        return is_callable(set_error_handler(fn () => null));
     }
 
     /**

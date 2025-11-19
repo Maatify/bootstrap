@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright   ©2025 Maatify.dev
  * @Liberary    bootstrap
@@ -56,4 +57,4 @@ if (file_exists($envPath . '/.env.local')) {
 }
 
 // 🧪 Display active environment for debugging
-echo "🧪 Environment: " . ($_ENV['APP_ENV'] ?? 'unknown') . "\n";
+echo '🧪 Environment: ' . ($_ENV['APP_ENV'] ?? 'unknown') . "\n";

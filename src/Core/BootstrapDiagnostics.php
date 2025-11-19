@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright   ©2025 Maatify.dev
  * @Liberary    maatify/bootstrap
@@ -131,7 +132,7 @@ final class BootstrapDiagnostics
      */
     public function checkErrors(): bool
     {
-        return is_callable(set_error_handler(static fn() => null));
+        return is_callable(set_error_handler(static fn () => null));
     }
 
     /**
@@ -157,9 +158,9 @@ final class BootstrapDiagnostics
 
         // ⚠️ Enable Safe Mode in production when dev/test .env files exist
         return $env === 'production' && (
-                file_exists($base . '/.env.local') ||
+            file_exists($base . '/.env.local') ||
                 file_exists($base . '/.env.testing')
-            );
+        );
     }
 
     /**

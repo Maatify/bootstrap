@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright   ©2025 Maatify.dev
  * @Liberary    maatify/bootstrap
@@ -15,8 +16,8 @@ declare(strict_types=1);
 namespace Maatify\Bootstrap\Core;
 
 use Exception;
-use Psr\Log\LoggerInterface;
 use Maatify\PsrLogger\LoggerFactory;
+use Psr\Log\LoggerInterface;
 
 /**
  * 🧩 Class Bootstrap

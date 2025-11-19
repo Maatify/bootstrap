@@ -42,7 +42,9 @@
     }
   },
   "require-dev": {
-    "phpunit/phpunit": "^10.0"
+    "phpunit/phpunit": "^10.0",
+    "phpstan/phpstan": "^1.11",
+    "friendsofphp/php-cs-fixer": "^3.89"
   },
 
   "autoload-dev": {
@@ -51,6 +53,8 @@
     }
   },
   "scripts": {
-    "test": "vendor/bin/phpunit --testdox"
+    "test": "vendor/bin/phpunit --testdox",
+    "analyse": "phpstan analyse src --level=max",
+    "format": "php-cs-fixer fix"
   }
 }
